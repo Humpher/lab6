@@ -122,6 +122,9 @@ public class Sudoku extends LatinSquare implements Serializable {
 	
 	//NEW CODE*****
 	
+	public int getMaxMistakes() {
+		return this.eGameDifficulty.getMistakes();
+	}
 	public void setCountMistakes(int countMistakes) {
 		
 		this.countMistakes = countMistakes;
@@ -139,6 +142,20 @@ public class Sudoku extends LatinSquare implements Serializable {
 	public void mistakesCounter() {
 		
 		this.countMistakes ++;
+	}
+	
+	public int countZeros() {
+		int counter = 0;
+		
+		for(int i =0; i<this.iSize; i++) {
+			for(int j = 0; j<this.iSize; i++) {
+				if(getPuzzle()[i][j] == 0) {
+					counter++;
+				}
+			}
+		}
+		
+		return counter;
 	}
 	
 	//******

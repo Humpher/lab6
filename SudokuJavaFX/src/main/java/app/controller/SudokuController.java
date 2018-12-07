@@ -5,6 +5,8 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
+import javax.swing.JOptionPane;
+
 import app.Game;
 import app.helper.SudokuCell;
 import app.helper.SudokuStyler;
@@ -323,7 +325,27 @@ public class SudokuController implements Initializable {
 							Cell CellFrom = (Cell) db.getContent(myFormat);
 
 							if (!s.isValidValue(CellTo.getiRow(), CellTo.getiCol(), CellFrom.getiCellValue())) {
+								
+								//New code
+								
+								game.getSudoku().mistakesCounter();
+							
+									
+								//******
+								
 								if (game.getShowHints()) {
+									
+									s.setCountMistakes(1);
+									System.out.println(s.getCountMistakes());
+									
+									if(s.getCountMistakes() >= s.getMaxMistakes()) {
+										
+										JOptionPane.showMessageDialog(null, "Game is Over");
+										CreateSudokuInstance();
+										BuildGrids();
+										
+									}
+									
 
 								}
 
@@ -337,6 +359,19 @@ public class SudokuController implements Initializable {
 							paneTarget.getChildren().add(iv);
 							System.out.println(CellFrom.getiCellValue());
 							success = true;
+							
+							s.getPuzzle()[CellTo.getiRow()][CellTo.getiCol()] = CellFrom.getiCellValue();
+							
+							if(s.countZeros() == 0) {
+								if(s.isSudoku()) {
+									JOptionPane.showMessageDialog(null, "Puzzle Completed");
+									CreateSudokuInstance();
+									BuildGrids();
+								}
+								else {
+									JOptionPane.showMessageDialog(null, "Puzzle Incomplete");
+								}
+							}
 						}
 						event.setDropCompleted(success);
 						event.consume();
